@@ -1,94 +1,65 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import PersonajeCard from './components/PersonajeCard'
+import Buscador from './components/Buscador'
 
 function App() {
+  // useState — estado de la app
+  const [personajes, setPersonajes] = useState([])
+  const [busqueda, setBusqueda] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [favoritos, setFavoritos] = useState([])
 
-  const [tareas, setTareas] = useState([])
-  const [texto, setTexto] = useState('')
+  // useEffect — fetch a la API al montar
+  useEffect(() => {
+    fetch('https://hp-api.onrender.com/api/characters')
+      .then((res) => res.json())
+      .then((data) => {
+        setPersonajes(data)
+        setLoading(false)
+      })
+  }, [])
 
-  function agregarTarea() {
-
-    if (texto === '') return
-
-    const nuevaTarea = {
-      id: Date.now(),
-      texto: texto,
+  // handler — toggle favorito
+  function toggleFavorito(id) {
+    const yaEsta = favoritos.includes(id)
+    if (yaEsta) {
+      setFavoritos(favoritos.filter((f) => f !== id))
+    } else {
+      setFavoritos([...favoritos, id])
     }
-
-    setTareas([...tareas, nuevaTarea])
-
-    setTexto('')
   }
 
-  function eliminarTarea(id) {
+  // filter — filtrar por búsqueda
+  const personajesFiltrados = personajes.filter((p) =>
+    p.name.toLowerCase().includes(busqueda.toLowerCase())
+  )
 
-    const nuevasTareas = tareas.filter(
-      (tarea) => tarea.id !== id
-    )
-
-    setTareas(nuevasTareas)
-  }
-
-  function editarTarea(id) {
-
-    const nuevoTexto = prompt('Editar tarea')
-
-    const nuevasTareas = tareas.map((tarea) => {
-
-      if (tarea.id === id) {
-
-        return {
-          ...tarea,
-          texto: nuevoTexto,
-        }
-      }
-
-      return tarea
-    })
-
-    setTareas(nuevasTareas)
-  }
+  // render condicional — si está cargando
+  if (loading) return <p>Cargando...</p>
 
   return (
-
     <div>
+      <h1>Personajes de Harry Potter</h1>
 
-      <h1>Lista de tareas</h1>
-
-      <input
-        type="text"
-        placeholder="Escribí una tarea"
-        value={texto}
-        onChange={(e) => setTexto(e.target.value)}
+      <Buscador
+        busqueda={busqueda}
+        setBusqueda={setBusqueda}
       />
 
-      <button onClick={agregarTarea}>
-        Agregar
-      </button>
+      <p>{personajesFiltrados.length} personajes encontrados</p>
 
       <ul>
-
-        {tareas.map((tarea) => (
-
-          <li key={tarea.id}>
-
-            {tarea.texto}
-
-            <button onClick={() => editarTarea(tarea.id)}>
-              Editar
-            </button>
-
-            <button onClick={() => eliminarTarea(tarea.id)}>
-              Eliminar
-            </button>
-
-          </li>
-
+        {/* map — renderizar lista */}
+        {personajesFiltrados.map((personaje) => (
+          <PersonajeCard
+            key={personaje.id}
+            personaje={personaje}
+            esFavorito={favoritos.includes(personaje.id)}
+            onToggleFavorito={toggleFavorito}
+          />
         ))}
-
       </ul>
-
     </div>
-
   )
 }
 
