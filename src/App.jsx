@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react'
-import PersonajeCard from './components/PersonajeCard'
+import ClubCard from './components/ClubCard'
 import Buscador from './components/Buscador'
 
 function App() {
-  // useState — estado de la app
-  const [personajes, setPersonajes] = useState([])
+  // useState — guardamos los clubes que vienen de la API
+  const [clubes, setClubes] = useState([])
   const [busqueda, setBusqueda] = useState('')
   const [loading, setLoading] = useState(true)
   const [favoritos, setFavoritos] = useState([])
 
-  // useEffect — fetch a la API al montar
+  // useEffect — cuando se monta el componente, pedimos los datos
   useEffect(() => {
-    fetch('https://hp-api.onrender.com/api/characters')
+    fetch('https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=English%20Premier%20League')
       .then((res) => res.json())
       .then((data) => {
-        setPersonajes(data)
+        setClubes(data.teams)
         setLoading(false)
       })
   }, [])
 
-  // handler — toggle favorito
+  // handler — agregar o quitar de favoritos
   function toggleFavorito(id) {
     const yaEsta = favoritos.includes(id)
     if (yaEsta) {
@@ -29,32 +29,29 @@ function App() {
     }
   }
 
-  // filter — filtrar por búsqueda
-  const personajesFiltrados = personajes.filter((p) =>
-    p.name.toLowerCase().includes(busqueda.toLowerCase())
+  // filter — filtramos los clubes según lo que escribe el usuario
+  const clubesFiltrados = clubes.filter((club) =>
+    club.strTeam.toLowerCase().includes(busqueda.toLowerCase())
   )
 
-  // render condicional — si está cargando
-  if (loading) return <p>Cargando...</p>
+  // render condicional — si está cargando mostramos un mensaje
+  if (loading) return <p>Cargando clubes...</p>
 
   return (
     <div>
-      <h1>Personajes de Harry Potter</h1>
+      <h1>Clubes de la Premier League</h1>
 
-      <Buscador
-        busqueda={busqueda}
-        setBusqueda={setBusqueda}
-      />
+      <Buscador busqueda={busqueda} setBusqueda={setBusqueda} />
 
-      <p>{personajesFiltrados.length} personajes encontrados</p>
+      <p>{clubesFiltrados.length} clubes encontrados</p>
 
       <ul>
-        {/* map — renderizar lista */}
-        {personajesFiltrados.map((personaje) => (
-          <PersonajeCard
-            key={personaje.id}
-            personaje={personaje}
-            esFavorito={favoritos.includes(personaje.id)}
+        {/* map — recorremos el array y mostramos cada club */}
+        {clubesFiltrados.map((club) => (
+          <ClubCard
+            key={club.idTeam}
+            club={club}
+            esFavorito={favoritos.includes(club.idTeam)}
             onToggleFavorito={toggleFavorito}
           />
         ))}
