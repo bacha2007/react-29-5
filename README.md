@@ -1,16 +1,29 @@
-# React + Vite
+Clubes de primera
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyecto hecho en React que trae los clubes de la Liga Profesional Argentina desde una API.
 
-Currently, two official plugins are available:
+Que hace
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Muestra todos los clubes de la Primera Division
+Podes buscar un club por nombre
+Podes agregar clubes a favoritos
+Los favoritos aparecen arriba separados del resto
+Tiene paginacion de 10 clubes por pagina
 
-## React Compiler
+Que tiene adentro
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+App.jsx — arma las rutas
+pages/Inicio.jsx — pagina principal, aca esta toda la logica
+components/ClubCard.jsx — la tarjetita de cada club
+components/Buscador.jsx — el input para buscar
 
-## Expanding the ESLint configuration
+Como lo corro
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+npm install
+npm run dev
+
+Temas de React que se usan
+
+useState, useEffect, props, componentes
+filter, map, destructuring, spread, ternarios
+eventos, handlers y render condicional
