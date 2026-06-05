@@ -8,7 +8,6 @@ Muestra todos los clubes de la Primera Division
 Podes buscar un club por nombre
 Podes agregar clubes a favoritos
 Los favoritos aparecen arriba separados del resto
-Tiene paginacion de 10 clubes por pagina
 
 Que tiene adentro
 
