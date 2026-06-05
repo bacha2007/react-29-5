@@ -10,7 +10,7 @@ function ClubCard({ club, esFavorito, onToggleFavorito }) {
       )}
       <h2>{name}</h2>
       <button onClick={() => onToggleFavorito(id)}>
-        {esFavorito ? 'Quitar favorito' : 'Agregar favorito'}
+        {esFavorito ? ' Quitar favorito' : ' Agregar favorito'}
       </button>
     </li>
   )

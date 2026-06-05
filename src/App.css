@@ -119,36 +119,3 @@ div > button {
 div > button:hover {
   background: #f0f0f0;
 }
-
-.paginacion {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-top: 32px;
-}
-
-.paginacion button {
-  padding: 8px 18px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: white;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  transition: background 0.2s;
-}
-
-.paginacion button:hover {
-  background: #f0f0f0;
-}
-
-.paginacion button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.paginacion span {
-  font-size: 14px;
-  color: #666;
-}

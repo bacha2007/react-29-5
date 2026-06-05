@@ -3,13 +3,11 @@ import ClubCard from '../components/ClubCard'
 import Buscador from '../components/Buscador'
 
 const API_KEY = '3d39a9244f25fa3d506d43b1ecb95325'
-const CLUBES_POR_PAGINA = 10
 
 function Inicio() {
   const [clubes, setClubes] = useState([])
   const [busqueda, setBusqueda] = useState('')
   const [loading, setLoading] = useState(true)
-  const [paginaActual, setPaginaActual] = useState(1)
   const [favoritos, setFavoritos] = useState([])
 
   useEffect(() => {
@@ -44,22 +42,13 @@ function Inicio() {
     !favoritos.includes(Number(item.team.id))
   )
 
-  const totalPaginas = Math.ceil(clubesFiltrados.length / CLUBES_POR_PAGINA)
-  const inicio = (paginaActual - 1) * CLUBES_POR_PAGINA
-  const clubesPagina = clubesFiltrados.slice(inicio, inicio + CLUBES_POR_PAGINA)
-
-  function handleBusqueda(valor) {
-    setBusqueda(valor)
-    setPaginaActual(1)
-  }
-
   if (loading) return <p>Cargando clubes...</p>
 
   return (
     <div>
       <h1>Primera División Argentina</h1>
 
-      <Buscador busqueda={busqueda} setBusqueda={handleBusqueda} />
+      <Buscador busqueda={busqueda} setBusqueda={setBusqueda} />
 
       {clubesFavoritos.length > 0 && (
         <div>
@@ -76,11 +65,10 @@ function Inicio() {
           </ul>
         </div>
       )}
-      <h2>Todos los clubes</h2>
-      <p>{clubesFiltrados.length} clubes</p>
 
+      <h2>Todos los clubes</h2>
       <ul>
-        {clubesPagina.map((item) => (
+        {clubesFiltrados.map((item) => (
           <ClubCard
             key={item.team.id}
             club={item.team}
@@ -89,24 +77,6 @@ function Inicio() {
           />
         ))}
       </ul>
-
-      {totalPaginas > 1 && (
-        <div className="paginacion">
-          <button
-            onClick={() => setPaginaActual(paginaActual - 1)}
-            disabled={paginaActual === 1}
-          >
-            Anterior
-          </button>
-          <span>Página {paginaActual} de {totalPaginas}</span>
-          <button
-            onClick={() => setPaginaActual(paginaActual + 1)}
-            disabled={paginaActual === totalPaginas}
-          >
-            Siguiente
-          </button>
-        </div>
-      )}
     </div>
   )
 }
